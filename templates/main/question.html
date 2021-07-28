@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'main/components/navbar.html' %}
+<div class="container">
+  <div class="row">
+        <span class="collection-header"><h4>{{question.content}}</h4></span>
+
+  </div>
+
+<form  action="" method="post">
+  {% csrf_token %}
+  <div class="row">
+    <div class="col-6">
+      <ul class="collection">
+
+        {% for choice in question.choice_set.all %}
+        <div class="collection-item">
+
+          {% if answer %}
+          {{choice.content}} ({{choice.answer_count}})
+            {% if answer.choice.id == choice.id %}
+            <i class="material-icons">check</i>
+
+            {% endif %}
+          {% else %}
+            <label >
+              <input class="with-gap" name="choice" type="radio" value = {{choice.id}}  />
+              <span>{{ choice.content }}</span>
+            </label>
+          {% endif %}
+
+        </div>
+
+
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+
+  <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+    <i class="material-icons right">send</i>
+  </button>
+
+  </div>
+
+  <div class="row">
+    <p class="red">
+      {% for error in form.errors %}
+      <li>
+        {{ form.errors}}
+      </li>
+      {% endfor %}
+    </p>
+
+  </div>
+
+</form>
+
+
+
+
+</div>
+
+
+{% endblock %}
